@@ -1,11 +1,12 @@
-# diccionario que contiene las bebidas, sus ingredientes y el costo de cada una
+#English version
+#diccionario que contiene las bebidas, sus ingredientes y el costo de cada una
 MENU = {
     "expresso": {
         "ingredientes": {
             "agua": 50,
             "cafe": 18,
         },
-        "costo": 25.0,
+        "cost": 25.0,
     },
     "latte": {
         "ingredientes": {
@@ -13,7 +14,7 @@ MENU = {
             "leche": 150,
             "cafe": 24,
         },
-        "costo": 45.5,
+        "cost": 45.5,
     },
     "capuchino": {
         "ingredientes": {
@@ -21,111 +22,111 @@ MENU = {
             "leche": 100,
             "cafe": 24,
         },
-        "costo": 40.0,
+        "cost": 40.0,
     }
 }
 
-ganancias = 0
+earnings = 0
 
 # ingredientes que tiene la cafetera, se van a ir restando a medida que se vayan haciendo las bebidas
-reporte = {
+report = {
     "agua": 400,
     "leche": 300,
     "cafe": 150,
 }
 
 # toman de argumento los ingredientes que se ocupan para hacer la bebida y los resta al reporte
-def preparar_cafe(ing_bebida):
+def make_coffe(drink_ingredients):
 
-    reporte["agua"] -= ing_bebida["agua"]
-    reporte["cafe"] -= ing_bebida["cafe"]
-    if "leche" in ing_bebida:
-        reporte["leche"] -= ing_bebida["leche"]
+    report["agua"] -= drink_ingredients["agua"]
+    report["cafe"] -= drink_ingredients["cafe"]
+    if "leche" in drink_ingredients:
+        report["leche"] -= drink_ingredients["leche"]
 
-    print(f"Aqui tienes tu {orden}☕. Que lo disfrutes!\n")
+    print(f"Aqui tienes tu {user_order}☕. Que lo disfrutes!\n")
 
 
 # toma de argumentos 2 variables, la del costo_bebida y la del dinero_cliente ( ambas estan en transferencia_exitosa) 
 # checa si hay suficiente dinero para dar el cambio, sumar la ganacia y seguir con preparar_cafe
-def procesar_dinero(costo_bebida,dinero_cliente):
-    global ganancias
-    cambio = dinero_cliente - costo_bebida
-    cambio = round(cambio, 2)
-    ganancias += costo_bebida
+def process_money(drink_cost, client_money):
+    global earnings
+    change = client_money - drink_cost
+    change = round(change, 2)
+    earnings += drink_cost
 
-    if cambio > 0:
-        print(f"Aqui esta su cambio: ${cambio}\n")
-        preparar_cafe(MENU[orden]["ingredientes"])
+    if change > 0:
+        print(f"Aqui esta su change: ${change}\n")
+        make_coffe(MENU[user_order]["ingredientes"])
 
     else:
-        print("No hay cambio\n")
-        preparar_cafe(MENU[orden]["ingredientes"])
+        print("No hay change\n")
+        make_coffe(MENU[user_order]["ingredientes"])
 
 
 # toma de argumento el costo_bebida ( está en hay_suficientes_ingredientes) y crea la variable (dinero_cliente) que le pide al cliente dinero para poder procesarlo
-def transferencia_exitosa(costo_bebida):
-    dinero_cliente = float(input(f"Inserte ${costo_bebida} para continuar al transacción\n$"))
-    if dinero_cliente >= costo_bebida:
-        procesar_dinero(costo_bebida, dinero_cliente)
+def successful_transference(drink_cost):
+    client_money = float(input(f"Insert ${drink_cost} to continue the transaction\n$"))
+    if client_money >= drink_cost:
+        process_money(drink_cost, client_money)
     else:
         print("No hay suficiente dinero para continuar 💰\n")
 
 
-#  toma de argumento la variable (orden) y checa si hay suficientes ingredientes en el reporte para hacer la bebida que ordeno el cliente
-def hay_suficientes_ingredientes(bebida):
-    ingredientes_bebida = []     
-    ingrediente_que_hay = []      # ingredientes que si hay en el reporte para hacer la bebida
-    ingrediente_que_faltan = []
+#  toma de argumento la variable (user_order) y checa si hay suficientes ingredientes en el reporte para hacer la bebida que ordeno el cliente
+def enough_ingredients(drink):
+    ingredients_per_drink = []
+    ingredients_in_drink = []      # ingredientes que si hay en el reporte para hacer la bebida
+    lacked_ingredients = []
 
-    for item in MENU[bebida]["ingredientes"]:      # agrega los ingredientes que necesita la bebida en una lista
-        ingredientes_bebida.append(item)
+    for item in MENU[drink]["ingredientes"]:      # agrega los ingredientes que necesita la bebida en una lista
+        ingredients_per_drink.append(item)
 
 
     # Condicionales para agregar los ingredientes a su respectiva lista (checa si hay o no hay de ese ingrediente)
 
-    if "agua" in ingredientes_bebida:
-        if reporte["agua"] >= MENU[bebida]["ingredientes"]["agua"]:
-            ingrediente_que_hay.append("agua")
+    if "agua" in ingredients_per_drink:
+        if report["agua"] >= MENU[drink]["ingredientes"]["agua"]:
+            ingredients_in_drink.append("agua")
         else:
-            ingrediente_que_faltan.append("agua")
+            lacked_ingredients.append("agua")
 
-    if "leche" in ingredientes_bebida:
-        if reporte["leche"] >= MENU[bebida]["ingredientes"]["leche"]:
-            ingrediente_que_hay.append("leche")
+    if "leche" in ingredients_per_drink:
+        if report["leche"] >= MENU[drink]["ingredientes"]["leche"]:
+            ingredients_in_drink.append("leche")
         else:
-            ingrediente_que_faltan.append("leche")
+            lacked_ingredients.append("leche")
 
-    if "cafe" in ingredientes_bebida:
-        if reporte["cafe"] >= MENU[bebida]["ingredientes"]["cafe"]:
-            ingrediente_que_hay.append("cafe")
+    if "cafe" in ingredients_per_drink:
+        if report["cafe"] >= MENU[drink]["ingredientes"]["cafe"]:
+            ingredients_in_drink.append("cafe")
         else:
-            ingrediente_que_faltan.append("cafe")
+            lacked_ingredients.append("cafe")
 
 
     # Condicionales para checar si hay suficientes ingredientes para hacer la bebida que ordeno el cliente
 
-    if ingredientes_bebida != ingrediente_que_hay:
-        print(f"Falta {ingrediente_que_faltan}, Porfavor escoge otra bebida o termina el proceso:'off'\n")
+    if ingredients_per_drink != ingredients_in_drink:
+        print(f"Falta {lacked_ingredients}, Porfavor escoge otra bebida o termina el proceso:'off'\n")
 
-    if ingredientes_bebida == ingrediente_que_hay:
-        transferencia_exitosa(MENU[bebida]["costo"])
+    if ingredients_per_drink == ingredients_in_drink:
+        successful_transference(MENU[drink]["costo"])
 
 
 
 # loop principal que mantiene la cafetera encendida hasta que el usuario escriba 'off'
 on = True
 while on:
-    orden = input("Qué cafe le gustaría ordenar? expresso☕ / latte🥛☕ / capuchino ☕🥛\n").lower()
+    user_order = input("Qué cafe le gustaría ordenar? expresso☕ / latte🥛☕ / capuchino ☕🥛\n").lower()
 
-    if orden == "off":
+    if user_order == "off":
         on = False
-    elif orden == "reporte":
-        print(f"Agua: {reporte['agua']}ml")
-        print(f"Leche: {reporte['leche']}ml")
-        print(f"Café: {reporte['cafe']} g")
-        print(f"Ganancias: ${ganancias} \n")
+    elif user_order == "report":
+        print(f"Water: {report['water']}ml")
+        print(f"Milk: {report['milk']}ml")
+        print(f"Coffee: {report['coffee']} g")
+        print(f"Earnings: ${earnings} \n")
     else:
-        hay_suficientes_ingredientes(orden)
+        enough_ingredients(user_order)
 
 
 
